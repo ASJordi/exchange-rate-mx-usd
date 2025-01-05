@@ -8,6 +8,7 @@ import dev.asjordi.model.Bmx;
 import dev.asjordi.model.BmxResponse;
 import java.io.IOException;
 import java.net.http.HttpResponse;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Optional;
 
@@ -53,7 +54,8 @@ public class DataMapper {
         Bmx bmx;
 
         try {
-            bmx = mapper.readValue(PATH.toFile(), Bmx.class);
+            if (Files.exists(PATH) && Files.size(PATH) > 0) bmx = mapper.readValue(PATH.toFile(), Bmx.class);
+            else return Optional.empty();
         } catch (IOException e) {
             e.printStackTrace();
             return Optional.empty();

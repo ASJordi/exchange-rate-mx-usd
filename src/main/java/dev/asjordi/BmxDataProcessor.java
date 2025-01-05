@@ -4,6 +4,7 @@ import dev.asjordi.model.Bmx;
 import dev.asjordi.model.Dato;
 import dev.asjordi.util.FileUtils;
 import java.util.Comparator;
+import java.util.Optional;
 import java.util.concurrent.atomic.AtomicReference;
 
 public class BmxDataProcessor {
@@ -18,6 +19,38 @@ public class BmxDataProcessor {
 
     public void processData() {
         var optionalCurrentData = dataMapper.mapFileToObject();
+        if (optionalCurrentData.isPresent()) updateData(optionalCurrentData);
+        else createInitialData();
+    }
+
+    private void createInitialData() {
+        var optionalResponseData = requestManager.makeRequest();
+        var responseBmx = dataMapper.mapDataToObject(optionalResponseData);
+        var newBmx = responseBmx.getBmx();
+
+        newBmx.getSeries().removeIf(serie -> serie.getDatos() == null || serie.getDatos().isEmpty());
+
+        newBmx.getSeries().forEach(serie -> serie.getDatos().sort(Comparator.comparing(Dato::getFecha)));
+
+        AtomicReference<Dato> lastDato = new AtomicReference<>(null);
+
+        newBmx.getSeries().forEach(serie -> {
+            var dato = serie.getDatos().stream().max(Comparator.comparing(Dato::getFecha));
+            dato.ifPresent(lastDato::set);
+        });
+
+        if (lastDato.get() != null) {
+            FileUtils.writeFile("lastUpdate.txt", lastDato.get().getFecha().toString());
+            System.out.println("Last update: " + lastDato.get().getFecha());
+        }
+
+        var statusSave = dataMapper.mapDataToFile(newBmx);
+
+        if (statusSave) System.out.println("Data saved successfully");
+        else System.out.println("An error occurred while saving the data");
+    }
+
+    private void updateData(Optional<Bmx> optionalCurrentData) {
         var currentBmx = optionalCurrentData.orElse(new Bmx());
 
         var optionalResponseData = requestManager.makeRequest();
@@ -28,23 +61,20 @@ public class BmxDataProcessor {
 
             if (newSerie.getDatos() == null || newSerie.getDatos().isEmpty()) return;
 
-            newSerie.getDatos().forEach(newDato -> {
-
-                currentBmx.getSeries().stream()
-                        .filter(s -> s.getIdSerie().equals(newSerie.getIdSerie()))
-                        .findFirst()
-                        .ifPresent(
-                                s -> {
-                                    var exists = s.getDatos()
-                                            .stream()
-                                            .anyMatch(d -> d.getFecha().equals(newDato.getFecha()));
-                                    if (!exists) {
-                                        s.getDatos().add(newDato);
-                                        System.out.println("Added new data: " + newDato);
-                                    }
+            newSerie.getDatos().forEach(newDato -> currentBmx.getSeries().stream()
+                    .filter(s -> s.getIdSerie().equals(newSerie.getIdSerie()))
+                    .findFirst()
+                    .ifPresent(
+                            s -> {
+                                var exists = s.getDatos()
+                                        .stream()
+                                        .anyMatch(d -> d.getFecha().equals(newDato.getFecha()));
+                                if (!exists) {
+                                    s.getDatos().add(newDato);
+                                    System.out.println("Added new data: " + newDato);
                                 }
-                        );
-            });
+                            }
+                    ));
         });
 
         currentBmx.getSeries().forEach(serie -> serie.getDatos().sort(Comparator.comparing(Dato::getFecha)));
@@ -66,4 +96,5 @@ public class BmxDataProcessor {
         if (statusSave) System.out.println("Data saved successfully");
         else System.out.println("An error occurred while saving the data");
     }
+
 }
