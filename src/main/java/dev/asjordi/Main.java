@@ -3,7 +3,8 @@ package dev.asjordi;
 public class Main {
 
     public static void main( String[] args ) {
-        System.out.println("BMX Data Processor");
+        BmxDataProcessor bmxDataProcessor = new BmxDataProcessor();
+        bmxDataProcessor.processData();
     }
 
 }
