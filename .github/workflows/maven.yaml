@@ -32,5 +32,5 @@ jobs:
           git config --global user.email "dev@asjordi.dev"
           git config --global user.name "Jordi Ayala"
           git add data.json lastUpdate.txt
-          git diff --staged --quiet || git commit -m 'chore: :card_file_box: Update data'
+          git diff --staged --quiet || git commit -m 'chore: Update data'
           git push
