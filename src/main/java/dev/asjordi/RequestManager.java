@@ -13,8 +13,12 @@ import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.Optional;
 import java.util.Properties;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class RequestManager {
+
+    private static final Logger LOGGER = LoggerConfig.getLogger();
 
     private String API_URL = "https://www.banxico.org.mx/SieAPIRest/service/v1/series/SF43718/datos/";
     private Properties props;
@@ -28,20 +32,28 @@ public class RequestManager {
     }
 
     private void getLastFetch() {
+        LOGGER.log(Level.INFO, () -> "Attempting to read last fetch date");
+
         var dateStr = FileUtils.readAsSingleString("lastUpdate.txt");
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         this.lastFetch = LocalDate.parse(dateStr, formatter);
         this.API_URL = this.API_URL + this.lastFetch + "/" + this.today;
-        System.out.println("API URL: " + this.API_URL);
+
+        LOGGER.log(Level.INFO, () -> "Last fetch date: " + this.lastFetch);
+        LOGGER.log(Level.INFO, () -> "API URL: " + this.API_URL);
     }
 
     private void loadEnv() {
+        LOGGER.log(Level.INFO, () -> "Attempting to load environment variables");
         this.props = new Properties();
         this.props.setProperty("API_TOKEN_BMX", System.getenv("API_TOKEN_BMX"));
+        LOGGER.log(Level.INFO, () -> "Environment variables loaded");
     }
 
     public Optional<HttpResponse<String>> makeRequest() {
+        LOGGER.log(Level.INFO, () -> "Starting HTTP request to BMX API");
         HttpRequest request = null;
+
         try {
             request = HttpRequest.newBuilder()
                     .uri(new URI(this.API_URL))
@@ -51,8 +63,10 @@ public class RequestManager {
                     .timeout(Duration.of(60, ChronoUnit.SECONDS))
                     .GET()
                     .build();
+
+            LOGGER.log(Level.INFO, () -> "HTTP request build successfully");
         } catch (URISyntaxException e) {
-            e.printStackTrace();
+            LOGGER.log(Level.SEVERE, "Failed to build HTTP request", e);
         }
 
         HttpClient client = HttpClient.newBuilder()
@@ -61,12 +75,14 @@ public class RequestManager {
                 .connectTimeout(Duration.of(20, ChronoUnit.SECONDS))
                 .build();
 
+        LOGGER.log(Level.INFO, () -> "HTTP client build successfully");
         HttpResponse<String> response = null;
 
         try {
             response = client.send(request, HttpResponse.BodyHandlers.ofString());
+            LOGGER.log(Level.INFO, () -> "HTTP request sent successfully");
         } catch (IOException | InterruptedException e) {
-            e.printStackTrace();
+            LOGGER.log(Level.SEVERE, "Failed to send HTTP request", e);
         }
         
         return Optional.ofNullable(response);

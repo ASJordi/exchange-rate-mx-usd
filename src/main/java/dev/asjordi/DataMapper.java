@@ -11,39 +11,50 @@ import java.net.http.HttpResponse;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Optional;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class DataMapper {
 
-    private ObjectMapper mapper;
+    private static final Logger LOGGER = LoggerConfig.getLogger();
+    private final ObjectMapper mapper;
     private final Path PATH = Path.of("data.json");
 
     public DataMapper() {
         this.mapper = new ObjectMapper()
                 .registerModule(new JavaTimeModule())
                 .disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
+        LOGGER.log(Level.INFO, () -> "DataMapper initialized");
     }
 
     public BmxResponse mapDataToObject(Optional<HttpResponse<String>> response) {
         BmxResponse bmxResponse;
+        LOGGER.log(Level.INFO, () -> "Mapping data to BmxResponse object");
 
         try {
             if (response.isPresent() && response.get().statusCode() == 200) {
                 bmxResponse = mapper.readValue(response.get().body(), BmxResponse.class);
+                LOGGER.log(Level.INFO, () -> "Data mapped to BmxResponse object successfully");
             } else {
-                throw new RuntimeException("Error getting data from Banxico API\n" + "Status code: " + response.get().statusCode());
+                LOGGER.log(Level.SEVERE, () -> "Error getting data from API\n" + "Status code: " + response.get().statusCode());
+                throw new RuntimeException("Error getting data from API");
             }
         } catch (JsonProcessingException e) {
-            throw new RuntimeException(e);
+            LOGGER.log(Level.SEVERE, "Failed to map data to BmxResponse object", e);
+            throw new RuntimeException(e.getMessage());
         }
 
         return bmxResponse;
     }
 
     public boolean mapDataToFile(Bmx bmx) {
+        LOGGER.log(Level.INFO, () -> "Mapping Bmx object to file");
+
         try {
             mapper.writeValue(PATH.toFile(), bmx);
+            LOGGER.log(Level.INFO, () -> "Bmx object mapped to file successfully");
         } catch (IOException e) {
-            e.printStackTrace();
+            LOGGER.log(Level.SEVERE, "Failed to map Bmx object to file", e);
             return false;
         }
 
@@ -52,12 +63,16 @@ public class DataMapper {
 
     public Optional<Bmx> mapFileToObject() {
         Bmx bmx;
+        LOGGER.log(Level.INFO, () -> "Mapping file to Bmx object");
 
         try {
-            if (Files.exists(PATH) && Files.size(PATH) > 0) bmx = mapper.readValue(PATH.toFile(), Bmx.class);
+            if (Files.exists(PATH) && Files.size(PATH) > 0) {
+                bmx = mapper.readValue(PATH.toFile(), Bmx.class);
+                LOGGER.log(Level.INFO, () -> "File mapped to Bmx object successfully");
+            }
             else return Optional.empty();
         } catch (IOException e) {
-            e.printStackTrace();
+            LOGGER.log(Level.SEVERE, "Failed to map file to Bmx object", e);
             return Optional.empty();
         }
 

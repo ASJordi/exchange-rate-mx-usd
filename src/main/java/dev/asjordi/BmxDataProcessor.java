@@ -6,24 +6,38 @@ import dev.asjordi.util.FileUtils;
 import java.util.Comparator;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicReference;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class BmxDataProcessor {
 
+    private static final Logger LOGGER = LoggerConfig.getLogger();
     private final RequestManager requestManager;
     private final DataMapper dataMapper;
 
     public BmxDataProcessor() {
         this.requestManager = new RequestManager();
         this.dataMapper = new DataMapper();
+        LOGGER.log(Level.INFO, () -> "BmxDataProcessor initialized");
     }
 
     public void processData() {
+        LOGGER.log(Level.INFO, () -> "Starting data processing");
         var optionalCurrentData = dataMapper.mapFileToObject();
-        if (optionalCurrentData.isPresent()) updateData(optionalCurrentData);
-        else createInitialData();
+
+        if (optionalCurrentData.isPresent()) {
+            LOGGER.log(Level.INFO, () -> "Existing data found, updating data");
+            updateData(optionalCurrentData);
+        }
+        else {
+            LOGGER.log(Level.INFO, () -> "No existing data found, creating initial data");
+            createInitialData();
+        }
     }
 
     private void createInitialData() {
+        LOGGER.log(Level.INFO, () -> "Creating initial data");
+
         var optionalResponseData = requestManager.makeRequest();
         var responseBmx = dataMapper.mapDataToObject(optionalResponseData);
         var newBmx = responseBmx.getBmx();
@@ -41,16 +55,17 @@ public class BmxDataProcessor {
 
         if (lastDato.get() != null) {
             FileUtils.writeFile("lastUpdate.txt", lastDato.get().getFecha().toString());
-            System.out.println("Last update: " + lastDato.get().getFecha());
+            LOGGER.log(Level.INFO, () -> "Last update: " + lastDato.get().getFecha());
         }
 
         var statusSave = dataMapper.mapDataToFile(newBmx);
 
-        if (statusSave) System.out.println("Data saved successfully");
-        else System.out.println("An error occurred while saving the data");
+        if (statusSave) LOGGER.log(Level.INFO, () -> "Data saved successfully");
+        else LOGGER.log(Level.SEVERE, () -> "An error occurred while saving the data");
     }
 
     private void updateData(Optional<Bmx> optionalCurrentData) {
+        LOGGER.log(Level.INFO, () -> "Updating data");
         var currentBmx = optionalCurrentData.orElse(new Bmx());
 
         var optionalResponseData = requestManager.makeRequest();
@@ -71,7 +86,7 @@ public class BmxDataProcessor {
                                         .anyMatch(d -> d.getFecha().equals(newDato.getFecha()));
                                 if (!exists) {
                                     s.getDatos().add(newDato);
-                                    System.out.println("Added new data: " + newDato);
+                                    LOGGER.log(Level.INFO, () -> "Added new data: " + newDato);
                                 }
                             }
                     ));
@@ -88,13 +103,13 @@ public class BmxDataProcessor {
 
         if (lastDato.get() != null) {
             FileUtils.writeFile("lastUpdate.txt", lastDato.get().getFecha().toString());
-            System.out.println("Last update: " + lastDato.get().getFecha());
+            LOGGER.log(Level.INFO, () -> "Last update: " + lastDato.get().getFecha());
         }
 
         var statusSave = dataMapper.mapDataToFile(currentBmx);
 
-        if (statusSave) System.out.println("Data saved successfully");
-        else System.out.println("An error occurred while saving the data");
+        if (statusSave) LOGGER.log(Level.INFO, () -> "Data saved successfully");
+        else LOGGER.log(Level.SEVERE, () -> "An error occurred while saving the data");
     }
 
 }
