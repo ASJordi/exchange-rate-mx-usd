@@ -23,14 +23,17 @@ La aplicación guarda los datos históricos en un archivo JSON de acuerdo a los 
 - `RequestManager`: Clase encargada de realizar la petición a la API y procesar la respuesta.
 - `DataMapper`: Clase encargada de mapear los datos obtenidos de la API a un objeto Java, y viceversa.
 - `BmxDataProcessor`: Clase encargada de procesar los datos obtenidos de la API y actualizar el archivo JSON.
+- `LoggerConfig`: Clase con métodos estáticos para configurar el logger de la aplicación.
 - `Main`: Clase principal que ejecuta la aplicación.
 
 ## Tecnologías :gear:
 
 - Java 21
+- GitHub Actions
 - Maven
 - Lombok
 - Jackson Databind
+- Java Logging
 
 ## Instalación :floppy_disk:
 
