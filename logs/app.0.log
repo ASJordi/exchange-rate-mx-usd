@@ -1358,3 +1358,331 @@
   <message>Data saved successfully</message>
 </record>
 </log>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE log SYSTEM "logger.dtd">
+<log>
+<record>
+  <date>2025-01-11T20:09:02.220951300Z</date>
+  <millis>1736626142220</millis>
+  <nanos>951300</nanos>
+  <sequence>0</sequence>
+  <logger>global</logger>
+  <level>INFO</level>
+  <class>dev.asjordi.Main</class>
+  <method>main</method>
+  <thread>25</thread>
+  <message>Starting BMX Data Processor</message>
+</record>
+<record>
+  <date>2025-01-11T20:09:02.249003802Z</date>
+  <millis>1736626142249</millis>
+  <nanos>3802</nanos>
+  <sequence>1</sequence>
+  <logger>global</logger>
+  <level>INFO</level>
+  <class>dev.asjordi.RequestManager</class>
+  <method>getLastFetch</method>
+  <thread>25</thread>
+  <message>Attempting to read last fetch date</message>
+</record>
+<record>
+  <date>2025-01-11T20:09:02.250175138Z</date>
+  <millis>1736626142250</millis>
+  <nanos>175138</nanos>
+  <sequence>2</sequence>
+  <logger>global</logger>
+  <level>INFO</level>
+  <class>dev.asjordi.util.FileUtils</class>
+  <method>readAsSingleString</method>
+  <thread>25</thread>
+  <message>Attempting to read file as a single string: lastUpdate.txt</message>
+</record>
+<record>
+  <date>2025-01-11T20:09:02.252479158Z</date>
+  <millis>1736626142252</millis>
+  <nanos>479158</nanos>
+  <sequence>3</sequence>
+  <logger>global</logger>
+  <level>INFO</level>
+  <class>dev.asjordi.util.FileUtils</class>
+  <method>readAsSingleString</method>
+  <thread>25</thread>
+  <message>Successfully read file as a single string: lastUpdate.txt</message>
+</record>
+<record>
+  <date>2025-01-11T20:09:02.257344026Z</date>
+  <millis>1736626142257</millis>
+  <nanos>344026</nanos>
+  <sequence>4</sequence>
+  <logger>global</logger>
+  <level>INFO</level>
+  <class>dev.asjordi.RequestManager</class>
+  <method>getLastFetch</method>
+  <thread>25</thread>
+  <message>Last fetch date: 2025-01-10</message>
+</record>
+<record>
+  <date>2025-01-11T20:09:02.258013229Z</date>
+  <millis>1736626142258</millis>
+  <nanos>13229</nanos>
+  <sequence>5</sequence>
+  <logger>global</logger>
+  <level>INFO</level>
+  <class>dev.asjordi.RequestManager</class>
+  <method>getLastFetch</method>
+  <thread>25</thread>
+  <message>API URL: https://www.banxico.org.mx/SieAPIRest/service/v1/series/SF43718/datos/2025-01-10/2025-01-11</message>
+</record>
+<record>
+  <date>2025-01-11T20:09:02.259336330Z</date>
+  <millis>1736626142259</millis>
+  <nanos>336330</nanos>
+  <sequence>6</sequence>
+  <logger>global</logger>
+  <level>INFO</level>
+  <class>dev.asjordi.RequestManager</class>
+  <method>loadEnv</method>
+  <thread>25</thread>
+  <message>Attempting to load environment variables</message>
+</record>
+<record>
+  <date>2025-01-11T20:09:02.260007167Z</date>
+  <millis>1736626142260</millis>
+  <nanos>7167</nanos>
+  <sequence>7</sequence>
+  <logger>global</logger>
+  <level>INFO</level>
+  <class>dev.asjordi.RequestManager</class>
+  <method>loadEnv</method>
+  <thread>25</thread>
+  <message>Environment variables loaded</message>
+</record>
+<record>
+  <date>2025-01-11T20:09:02.367949587Z</date>
+  <millis>1736626142367</millis>
+  <nanos>949587</nanos>
+  <sequence>8</sequence>
+  <logger>global</logger>
+  <level>INFO</level>
+  <class>dev.asjordi.DataMapper</class>
+  <method>&lt;init&gt;</method>
+  <thread>25</thread>
+  <message>DataMapper initialized</message>
+</record>
+<record>
+  <date>2025-01-11T20:09:02.368782955Z</date>
+  <millis>1736626142368</millis>
+  <nanos>782955</nanos>
+  <sequence>9</sequence>
+  <logger>global</logger>
+  <level>INFO</level>
+  <class>dev.asjordi.BmxDataProcessor</class>
+  <method>&lt;init&gt;</method>
+  <thread>25</thread>
+  <message>BmxDataProcessor initialized</message>
+</record>
+<record>
+  <date>2025-01-11T20:09:02.369398008Z</date>
+  <millis>1736626142369</millis>
+  <nanos>398008</nanos>
+  <sequence>10</sequence>
+  <logger>global</logger>
+  <level>INFO</level>
+  <class>dev.asjordi.BmxDataProcessor</class>
+  <method>processData</method>
+  <thread>25</thread>
+  <message>Starting data processing</message>
+</record>
+<record>
+  <date>2025-01-11T20:09:02.369996600Z</date>
+  <millis>1736626142369</millis>
+  <nanos>996600</nanos>
+  <sequence>11</sequence>
+  <logger>global</logger>
+  <level>INFO</level>
+  <class>dev.asjordi.DataMapper</class>
+  <method>mapFileToObject</method>
+  <thread>25</thread>
+  <message>Mapping file to Bmx object</message>
+</record>
+<record>
+  <date>2025-01-11T20:09:02.506384566Z</date>
+  <millis>1736626142506</millis>
+  <nanos>384566</nanos>
+  <sequence>12</sequence>
+  <logger>global</logger>
+  <level>INFO</level>
+  <class>dev.asjordi.DataMapper</class>
+  <method>mapFileToObject</method>
+  <thread>25</thread>
+  <message>File mapped to Bmx object successfully</message>
+</record>
+<record>
+  <date>2025-01-11T20:09:02.507570319Z</date>
+  <millis>1736626142507</millis>
+  <nanos>570319</nanos>
+  <sequence>13</sequence>
+  <logger>global</logger>
+  <level>INFO</level>
+  <class>dev.asjordi.BmxDataProcessor</class>
+  <method>processData</method>
+  <thread>25</thread>
+  <message>Existing data found, updating data</message>
+</record>
+<record>
+  <date>2025-01-11T20:09:02.508553345Z</date>
+  <millis>1736626142508</millis>
+  <nanos>553345</nanos>
+  <sequence>14</sequence>
+  <logger>global</logger>
+  <level>INFO</level>
+  <class>dev.asjordi.BmxDataProcessor</class>
+  <method>updateData</method>
+  <thread>25</thread>
+  <message>Updating data</message>
+</record>
+<record>
+  <date>2025-01-11T20:09:02.509331110Z</date>
+  <millis>1736626142509</millis>
+  <nanos>331110</nanos>
+  <sequence>15</sequence>
+  <logger>global</logger>
+  <level>INFO</level>
+  <class>dev.asjordi.RequestManager</class>
+  <method>makeRequest</method>
+  <thread>25</thread>
+  <message>Starting HTTP request to BMX API</message>
+</record>
+<record>
+  <date>2025-01-11T20:09:02.525258632Z</date>
+  <millis>1736626142525</millis>
+  <nanos>258632</nanos>
+  <sequence>16</sequence>
+  <logger>global</logger>
+  <level>INFO</level>
+  <class>dev.asjordi.RequestManager</class>
+  <method>makeRequest</method>
+  <thread>25</thread>
+  <message>HTTP request build successfully</message>
+</record>
+<record>
+  <date>2025-01-11T20:09:02.750349521Z</date>
+  <millis>1736626142750</millis>
+  <nanos>349521</nanos>
+  <sequence>17</sequence>
+  <logger>global</logger>
+  <level>INFO</level>
+  <class>dev.asjordi.RequestManager</class>
+  <method>makeRequest</method>
+  <thread>25</thread>
+  <message>HTTP client build successfully</message>
+</record>
+<record>
+  <date>2025-01-11T20:09:03.268298840Z</date>
+  <millis>1736626143268</millis>
+  <nanos>298840</nanos>
+  <sequence>18</sequence>
+  <logger>global</logger>
+  <level>INFO</level>
+  <class>dev.asjordi.RequestManager</class>
+  <method>makeRequest</method>
+  <thread>25</thread>
+  <message>HTTP request sent successfully</message>
+</record>
+<record>
+  <date>2025-01-11T20:09:03.269017906Z</date>
+  <millis>1736626143269</millis>
+  <nanos>17906</nanos>
+  <sequence>19</sequence>
+  <logger>global</logger>
+  <level>INFO</level>
+  <class>dev.asjordi.DataMapper</class>
+  <method>mapDataToObject</method>
+  <thread>25</thread>
+  <message>Mapping data to BmxResponse object</message>
+</record>
+<record>
+  <date>2025-01-11T20:09:03.272790385Z</date>
+  <millis>1736626143272</millis>
+  <nanos>790385</nanos>
+  <sequence>20</sequence>
+  <logger>global</logger>
+  <level>INFO</level>
+  <class>dev.asjordi.DataMapper</class>
+  <method>mapDataToObject</method>
+  <thread>25</thread>
+  <message>Data mapped to BmxResponse object successfully</message>
+</record>
+<record>
+  <date>2025-01-11T20:09:03.281217861Z</date>
+  <millis>1736626143281</millis>
+  <nanos>217861</nanos>
+  <sequence>21</sequence>
+  <logger>global</logger>
+  <level>INFO</level>
+  <class>dev.asjordi.util.FileUtils</class>
+  <method>writeFile</method>
+  <thread>25</thread>
+  <message>Attempting to write to file {}lastUpdate.txt</message>
+</record>
+<record>
+  <date>2025-01-11T20:09:03.282123413Z</date>
+  <millis>1736626143282</millis>
+  <nanos>123413</nanos>
+  <sequence>22</sequence>
+  <logger>global</logger>
+  <level>INFO</level>
+  <class>dev.asjordi.util.FileUtils</class>
+  <method>writeFile</method>
+  <thread>25</thread>
+  <message>Successfully wrote to file: lastUpdate.txt</message>
+</record>
+<record>
+  <date>2025-01-11T20:09:03.282999150Z</date>
+  <millis>1736626143282</millis>
+  <nanos>999150</nanos>
+  <sequence>23</sequence>
+  <logger>global</logger>
+  <level>INFO</level>
+  <class>dev.asjordi.BmxDataProcessor</class>
+  <method>updateData</method>
+  <thread>25</thread>
+  <message>Last update: 2025-01-10</message>
+</record>
+<record>
+  <date>2025-01-11T20:09:03.283584958Z</date>
+  <millis>1736626143283</millis>
+  <nanos>584958</nanos>
+  <sequence>24</sequence>
+  <logger>global</logger>
+  <level>INFO</level>
+  <class>dev.asjordi.DataMapper</class>
+  <method>mapDataToFile</method>
+  <thread>25</thread>
+  <message>Mapping Bmx object to file</message>
+</record>
+<record>
+  <date>2025-01-11T20:09:03.329108059Z</date>
+  <millis>1736626143329</millis>
+  <nanos>108059</nanos>
+  <sequence>25</sequence>
+  <logger>global</logger>
+  <level>INFO</level>
+  <class>dev.asjordi.DataMapper</class>
+  <method>mapDataToFile</method>
+  <thread>25</thread>
+  <message>Bmx object mapped to file successfully</message>
+</record>
+<record>
+  <date>2025-01-11T20:09:03.329859686Z</date>
+  <millis>1736626143329</millis>
+  <nanos>859686</nanos>
+  <sequence>26</sequence>
+  <logger>global</logger>
+  <level>INFO</level>
+  <class>dev.asjordi.BmxDataProcessor</class>
+  <method>updateData</method>
+  <thread>25</thread>
+  <message>Data saved successfully</message>
+</record>
+</log>
