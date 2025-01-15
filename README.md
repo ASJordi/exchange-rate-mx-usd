@@ -4,7 +4,7 @@
 
 ## About :computer:
 
-Aplicación de consola que permite consultar el tipo de cambio por día del Peso Mexicano (MXN) en relación con el Dólar Estadounidense (USD) usando la API de [banxico.org.mx](https://www.banxico.org.mx/SieAPIRest/service/v1/), y almacenar la información en un archivo con formato JSON.
+Aplicación de consola que permite consultar el tipo de cambio por día del Peso Mexicano (MXN) en relación con el Dólar Estadounidense (USD) usando la API de [banxico.org.mx](https://www.banxico.org.mx/SieAPIRest/service/v1/), almacenar la información en un archivo con formato JSON y generar un gráfico con la evolución del tipo de cambio a lo largo del tiempo.
 
 La aplicación guarda los datos históricos en un archivo JSON de acuerdo a los registros de la propia API y se actualiza de manera automática cada día mediante el uso de GitHub Actions y un cron job.
 
@@ -13,6 +13,7 @@ La aplicación guarda los datos históricos en un archivo JSON de acuerdo a los 
 - Realizar y procesar peticiones a una API.
 - Convertir la respuesta de la API a un objeto Java.
 - Actualizar un archivo JSON con la información obtenida.
+- Generar un gráfico con la evolución del tipo de cambio.
 - Convertir un objeto Java a un archivo JSON.
 - Automatizar la actualización del archivo JSON mediante GitHub Actions.
 
@@ -24,6 +25,7 @@ La aplicación guarda los datos históricos en un archivo JSON de acuerdo a los 
 - `DataMapper`: Clase encargada de mapear los datos obtenidos de la API a un objeto Java, y viceversa.
 - `BmxDataProcessor`: Clase encargada de procesar los datos obtenidos de la API y actualizar el archivo JSON.
 - `LoggerConfig`: Clase con métodos estáticos para configurar el logger de la aplicación.
+- `TimeSeriesChart`: Clase encargada de generar un gráfico en formato `.svg` con la evolución del tipo de cambio.
 - `Main`: Clase principal que ejecuta la aplicación.
 
 ## Tecnologías :gear:
@@ -33,6 +35,7 @@ La aplicación guarda los datos históricos en un archivo JSON de acuerdo a los 
 - Maven
 - Lombok
 - Jackson Databind
+- JFreeChart
 - Java Logging
 
 ## Instalación :floppy_disk:
