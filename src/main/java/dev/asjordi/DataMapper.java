@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import dev.asjordi.logger.LoggerConfig;
 import dev.asjordi.model.Bmx;
 import dev.asjordi.model.BmxResponse;
 import java.io.IOException;

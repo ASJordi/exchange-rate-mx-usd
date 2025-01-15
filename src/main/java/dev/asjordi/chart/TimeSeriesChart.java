@@ -1,5 +1,6 @@
-package dev.asjordi;
+package dev.asjordi.chart;
 
+import dev.asjordi.logger.LoggerConfig;
 import dev.asjordi.model.Bmx;
 import dev.asjordi.model.Dato;
 import java.awt.BasicStroke;

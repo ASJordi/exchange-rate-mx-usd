@@ -1,5 +1,6 @@
 package dev.asjordi;
 
+import dev.asjordi.logger.LoggerConfig;
 import java.util.logging.*;
 
 public class Main {

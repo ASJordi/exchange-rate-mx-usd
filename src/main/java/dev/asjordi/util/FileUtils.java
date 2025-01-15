@@ -1,6 +1,6 @@
 package dev.asjordi.util;
 
-import dev.asjordi.LoggerConfig;
+import dev.asjordi.logger.LoggerConfig;
 
 import java.io.*;
 import java.nio.file.Files;

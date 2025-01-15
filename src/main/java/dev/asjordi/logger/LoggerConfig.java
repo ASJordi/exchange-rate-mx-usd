@@ -1,4 +1,4 @@
-package dev.asjordi;
+package dev.asjordi.logger;
 
 import java.io.IOException;
 import java.nio.file.Files;

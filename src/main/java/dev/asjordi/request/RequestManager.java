@@ -1,5 +1,6 @@
-package dev.asjordi;
+package dev.asjordi.request;
 
+import dev.asjordi.logger.LoggerConfig;
 import dev.asjordi.util.FileUtils;
 import java.io.IOException;
 import java.net.URI;
