@@ -31,6 +31,6 @@ jobs:
         run: |
           git config --global user.email "dev@asjordi.dev"
           git config --global user.name "Jordi Ayala"
-          git add data.json lastUpdate.txt logs
+          git add data.json lastUpdate.txt chart.svg logs
           git diff --staged --quiet || git commit -m 'chore: Update data'
           git push

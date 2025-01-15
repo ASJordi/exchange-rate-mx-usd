@@ -62,6 +62,8 @@ public class BmxDataProcessor {
 
         if (statusSave) LOGGER.log(Level.INFO, () -> "Data saved successfully");
         else LOGGER.log(Level.SEVERE, () -> "An error occurred while saving the data");
+
+        generateChart(newBmx);
     }
 
     private void updateData(Optional<Bmx> optionalCurrentData) {
@@ -110,6 +112,13 @@ public class BmxDataProcessor {
 
         if (statusSave) LOGGER.log(Level.INFO, () -> "Data saved successfully");
         else LOGGER.log(Level.SEVERE, () -> "An error occurred while saving the data");
+
+        generateChart(currentBmx);
+    }
+
+    private void generateChart(Bmx bmx) {
+        TimeSeriesChart seriesChart = new TimeSeriesChart(bmx);
+        seriesChart.generateChart();
     }
 
 }
