@@ -7,7 +7,6 @@ import dev.asjordi.model.Dato;
 import dev.asjordi.request.RequestManager;
 import dev.asjordi.util.FileUtils;
 import java.util.Comparator;
-import java.util.Optional;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -30,7 +29,7 @@ public class BmxDataProcessor {
 
         if (optionalCurrentData.isPresent()) {
             LOGGER.log(Level.INFO, () -> "Existing data found, updating data");
-            updateData(optionalCurrentData);
+            updateData(optionalCurrentData.get());
         }
         else {
             LOGGER.log(Level.INFO, () -> "No existing data found, creating initial data");
@@ -49,29 +48,13 @@ public class BmxDataProcessor {
 
         newBmx.getSeries().forEach(serie -> serie.getDatos().sort(Comparator.comparing(Dato::getFecha)));
 
-        AtomicReference<Dato> lastDato = new AtomicReference<>(null);
-
-        newBmx.getSeries().forEach(serie -> {
-            var dato = serie.getDatos().stream().max(Comparator.comparing(Dato::getFecha));
-            dato.ifPresent(lastDato::set);
-        });
-
-        if (lastDato.get() != null) {
-            FileUtils.writeFile("lastUpdate.txt", lastDato.get().getFecha().toString());
-            LOGGER.log(Level.INFO, () -> "Last update: " + lastDato.get().getFecha());
-        }
-
-        var statusSave = dataMapper.mapDataToFile(newBmx);
-
-        if (statusSave) LOGGER.log(Level.INFO, () -> "Data saved successfully");
-        else LOGGER.log(Level.SEVERE, () -> "An error occurred while saving the data");
-
+        saveLastUpdateToFile(newBmx);
+        saveDataToFile(newBmx);
         generateChart(newBmx);
     }
 
-    private void updateData(Optional<Bmx> optionalCurrentData) {
+    private void updateData(Bmx currentBmx) {
         LOGGER.log(Level.INFO, () -> "Updating data");
-        var currentBmx = optionalCurrentData.orElse(new Bmx());
 
         var optionalResponseData = requestManager.makeRequest();
         var responseBmx = dataMapper.mapDataToObject(optionalResponseData);
@@ -99,9 +82,21 @@ public class BmxDataProcessor {
 
         currentBmx.getSeries().forEach(serie -> serie.getDatos().sort(Comparator.comparing(Dato::getFecha)));
 
+        saveLastUpdateToFile(currentBmx);
+        saveDataToFile(currentBmx);
+        generateChart(currentBmx);
+    }
+
+    private void saveDataToFile(Bmx bmx) {
+        var statusSave = dataMapper.mapDataToFile(bmx);
+        if (statusSave) LOGGER.log(Level.INFO, () -> "Data saved successfully");
+        else LOGGER.log(Level.SEVERE, () -> "An error occurred while saving the data");
+    }
+
+    private static void saveLastUpdateToFile(Bmx bmx) {
         AtomicReference<Dato> lastDato = new AtomicReference<>(null);
 
-        currentBmx.getSeries().forEach(serie -> {
+        bmx.getSeries().forEach(serie -> {
             var dato = serie.getDatos().stream().max(Comparator.comparing(Dato::getFecha));
             dato.ifPresent(lastDato::set);
         });
@@ -110,13 +105,6 @@ public class BmxDataProcessor {
             FileUtils.writeFile("lastUpdate.txt", lastDato.get().getFecha().toString());
             LOGGER.log(Level.INFO, () -> "Last update: " + lastDato.get().getFecha());
         }
-
-        var statusSave = dataMapper.mapDataToFile(currentBmx);
-
-        if (statusSave) LOGGER.log(Level.INFO, () -> "Data saved successfully");
-        else LOGGER.log(Level.SEVERE, () -> "An error occurred while saving the data");
-
-        generateChart(currentBmx);
     }
 
     private void generateChart(Bmx bmx) {
