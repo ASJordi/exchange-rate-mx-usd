@@ -23,25 +23,32 @@ public class RequestManager {
 
     private String API_URL = "https://www.banxico.org.mx/SieAPIRest/service/v1/series/SF43718/datos/";
     private Properties props;
-    private LocalDate today;
-    private LocalDate lastFetch;
 
     public RequestManager() {
-        this.today = LocalDate.now();
-        getLastFetch();
+        buildAPIUrl();
         loadEnv();
     }
 
-    private void getLastFetch() {
+    private void buildAPIUrl() {
+        LOGGER.log(Level.INFO, () -> "Building API URL");
+
+        var lastFetch = getLastFetch();
+        var today = LocalDate.now();
+        this.API_URL = this.API_URL + lastFetch + "/" + today;
+
+        LOGGER.log(Level.INFO, () -> "API URL: " + this.API_URL);
+    }
+
+    private String getLastFetch() {
         LOGGER.log(Level.INFO, () -> "Attempting to read last fetch date");
 
         var dateStr = FileUtils.readAsSingleString("lastUpdate.txt");
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-        this.lastFetch = LocalDate.parse(dateStr, formatter);
-        this.API_URL = this.API_URL + this.lastFetch + "/" + this.today;
+        var lastFetch = LocalDate.parse(dateStr, formatter);
 
-        LOGGER.log(Level.INFO, () -> "Last fetch date: " + this.lastFetch);
-        LOGGER.log(Level.INFO, () -> "API URL: " + this.API_URL);
+        LOGGER.log(Level.INFO, () -> "Last fetch date: " + lastFetch);
+
+        return lastFetch.toString();
     }
 
     private void loadEnv() {
