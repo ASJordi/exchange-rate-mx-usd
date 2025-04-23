@@ -28,15 +28,31 @@ import java.nio.file.Paths;
 import java.util.List;
 import java.util.logging.*;
 
+/**
+ * Creates and generates time series charts for BMX exchange rate data.
+ * This class uses the JFreeChart library to create visually appealing
+ * charts of the MXN/USD exchange rate over time and saves them as SVG files.
+ */
 public class TimeSeriesChart {
 
     private static final Logger LOGGER = LoggerConfig.getLogger();
     private Bmx bmx;
 
+    /**
+     * Constructor that initializes the chart with BMX data.
+     * 
+     * @param bmx The BMX data to be visualized in the chart
+     */
     public TimeSeriesChart(Bmx bmx) {
         this.bmx = bmx;
     }
 
+    /**
+     * Generates a time series chart and saves it as an SVG file.
+     * Creates the dataset, configures the chart, and writes it to a file named "chart.svg".
+     * 
+     * @throws RuntimeException if there is an error writing the SVG file
+     */
     public void generateChart() {
         LOGGER.log(Level.INFO, () -> "Starting chart generation");
         JFreeChart chart = createChart(createDataset());
@@ -58,6 +74,13 @@ public class TimeSeriesChart {
         }
     }
 
+    /**
+     * Creates a time series dataset from the BMX data.
+     * Extracts dates and exchange rate values from the BMX data and
+     * organizes them into a JFreeChart TimeSeriesCollection.
+     * 
+     * @return XYDataset containing the time series data
+     */
     private XYDataset createDataset() {
         TimeSeries timeSeries = new TimeSeries("Tasa de cambio (MXN/USD)");
         List<Dato> datos = bmx.getSeries().get(0).getDatos();
@@ -74,6 +97,13 @@ public class TimeSeriesChart {
         return dataset;
     }
 
+    /**
+     * Creates and configures a JFreeChart time series chart.
+     * Sets up the chart's appearance including titles, fonts, colors, and rendering options.
+     * 
+     * @param dataset The dataset to be displayed in the chart
+     * @return JFreeChart configured with the dataset and styling
+     */
     private JFreeChart createChart(XYDataset dataset) {
         JFreeChart chart = ChartFactory.createTimeSeriesChart(
                 "Tipo de cambio Pesos por dólar E.U.A.",
